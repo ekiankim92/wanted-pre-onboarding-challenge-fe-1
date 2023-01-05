@@ -1,4 +1,4 @@
-import * as S from "./register-css";
+import * as S from "./signup-css";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "../../../../utils/schema";
@@ -9,7 +9,7 @@ type Inputs = {
   passwordConfirm: string;
 };
 
-export default function Register() {
+export default function SignUp() {
   const {
     register,
     handleSubmit,

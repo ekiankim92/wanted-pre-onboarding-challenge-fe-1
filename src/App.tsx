@@ -3,7 +3,7 @@ import Layout from "./common/layouts";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { NavigationUtil } from "./utils/navigation";
 import AuthPage from "./pages/auth";
-import RegisterPage from "./pages/register";
+import SignUpPage from "./pages/signUp";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate replace to="/auth" />} />
           <Route path={NavigationUtil.auth} element={<AuthPage />} />
-          <Route path={NavigationUtil.register} element={<RegisterPage />} />
+          <Route path={NavigationUtil.register} element={<SignUpPage />} />
         </Routes>
       </Layout>
     </>

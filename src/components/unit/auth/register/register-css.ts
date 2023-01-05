@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface Props {
+  isValid: boolean;
+}
+
 export const Wrapper = styled.div`
   width: 400px;
   height: 560px;
@@ -82,6 +86,10 @@ export const RegisterButton = styled.button`
   border-radius: 24px;
   border: none;
   background: linear-gradient(90deg, #ffafbd -3.4%, #ffc3a0 100%);
+  background: ${(props: Props) =>
+    !props.isValid
+      ? "#efefef"
+      : "linear-gradient(90deg, #ffafbd -3.4%, #ffc3a0 100%)"};
   :hover {
     cursor: pointer;
     opacity: 0.85;

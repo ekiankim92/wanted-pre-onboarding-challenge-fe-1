@@ -85,7 +85,6 @@ export const RegisterButton = styled.button`
   height: 40px;
   border-radius: 24px;
   border: none;
-  background: linear-gradient(90deg, #ffafbd -3.4%, #ffc3a0 100%);
   background: ${(props: Props) =>
     !props.isValid
       ? "#efefef"

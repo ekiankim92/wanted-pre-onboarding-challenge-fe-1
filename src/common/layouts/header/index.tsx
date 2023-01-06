@@ -46,12 +46,17 @@ export default function Header() {
     navigate(NavigationUtil.auth);
   };
 
+  const onClickLogout = () => {
+    localStorage.removeItem("token");
+    navigate(NavigationUtil.auth);
+  };
+
   return (
     <Wrapper>
       <Title>2Do</Title>
       <ButtonWrapper>
         <LoginLabel onClick={onClickAuthPage}>로그인</LoginLabel>
-        <LogoutLabel>로그아웃</LogoutLabel>
+        <LogoutLabel onClick={onClickLogout}>로그아웃</LogoutLabel>
       </ButtonWrapper>
     </Wrapper>
   );

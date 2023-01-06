@@ -4,6 +4,7 @@ import { NavigationUtil } from "../../../utils/navigation";
 import { ChangeEvent, useState } from "react";
 import { handleLogin } from "../../../apis";
 import { useMutation } from "react-query";
+import axios from "axios";
 
 export default function Auth() {
   const [inputs, setInputs] = useState({
@@ -19,16 +20,16 @@ export default function Auth() {
 
   const onChangeInputs =
     (name: string) => (event: ChangeEvent<HTMLInputElement>) => {
+      setInputs((prev) => ({
+        ...prev,
+        [name]: event.target.value,
+      }));
+
       const { email, password } = inputs;
 
       if (email && password) {
         setIsActive(true);
       }
-
-      setInputs((prev) => ({
-        ...prev,
-        [name]: event.target.value,
-      }));
     };
 
   const onClickRegister = () => {
@@ -36,7 +37,17 @@ export default function Auth() {
   };
 
   const onClickLogin = () => {
-    mutate({ ...inputs });
+    mutate(
+      { ...inputs },
+      {
+        onSuccess: () => {
+          navigate(NavigationUtil.todos);
+        },
+        onError: (error) => {
+          if (axios.isAxiosError(error)) alert(error.response?.data.details);
+        },
+      }
+    );
   };
 
   return (

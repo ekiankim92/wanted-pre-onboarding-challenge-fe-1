@@ -6,6 +6,7 @@ import { handleSignUp } from "../../../../apis";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router";
 import { NavigationUtil } from "../../../../utils/navigation";
+import axios from "axios";
 
 interface Inputs {
   email: string;
@@ -29,14 +30,11 @@ export default function SignUp() {
 
   const onClickRegister = async (data: Inputs) => {
     mutate(data, {
-      onError: (error) => {
-        console.log("error:", error);
-        if (error) {
-          navigate(NavigationUtil.auth);
-        }
-      },
       onSuccess: () => {
-        navigate(NavigationUtil.auth);
+        navigate(NavigationUtil.todos);
+      },
+      onError: (error) => {
+        if (axios.isAxiosError(error)) alert(error.response?.data.details);
       },
     });
   };

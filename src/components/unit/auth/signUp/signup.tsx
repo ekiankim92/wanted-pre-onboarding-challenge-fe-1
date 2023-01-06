@@ -2,14 +2,21 @@ import * as S from "./signup-css";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "../../../../utils/schema";
+import { handleSignUp } from "../../../../apis";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router";
+import { NavigationUtil } from "../../../../utils/navigation";
 
-type Inputs = {
+interface Inputs {
   email: string;
   password: string;
   passwordConfirm: string;
-};
+}
 
 export default function SignUp() {
+  const { mutate } = useMutation(handleSignUp);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -20,8 +27,18 @@ export default function SignUp() {
     resolver: yupResolver(schema),
   });
 
-  const onClickRegister = () => {
-    alert("register");
+  const onClickRegister = async (data: Inputs) => {
+    mutate(data, {
+      onError: (error) => {
+        console.log("error:", error);
+        if (error) {
+          navigate(NavigationUtil.auth);
+        }
+      },
+      onSuccess: () => {
+        navigate(NavigationUtil.auth);
+      },
+    });
   };
 
   return (
@@ -45,8 +62,7 @@ export default function SignUp() {
           <S.ErrorMsg>{errors.passwordConfirm?.message}</S.ErrorMsg>
           <S.RegisterButton
             disabled={
-              !isValid ||
-              !watch(["email", "password", "passwordConfirm"]).every((el) => el)
+              !isValid || !watch(["email", "password"]).every((el) => el)
             }
             isValid={isValid}
           >

@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface Props {
+  isActive: boolean;
+}
+
 export const Wrapper = styled.div`
   width: 400px;
   height: 400px;
@@ -65,7 +69,10 @@ export const LoginButton = styled.button`
   height: 40px;
   border-radius: 24px;
   border: none;
-  background: linear-gradient(90deg, #ffafbd -3.4%, #ffc3a0 100%);
+  background: ${(props: Props) =>
+    !props.isActive
+      ? "#efefef"
+      : "linear-gradient(90deg, #ffafbd -3.4%, #ffc3a0 100%)"};
   :hover {
     cursor: pointer;
     opacity: 0.85;

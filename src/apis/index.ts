@@ -5,6 +5,11 @@ interface DataType {
   password: string;
 }
 
+interface CreateProps {
+  title: string;
+  content: string;
+}
+
 export const handleLogin = async (userInfo: DataType) => {
   const result = await axios.post(
     "http://localhost:8080/users/login",
@@ -19,4 +24,15 @@ export const handleSignUp = async (userInfo: DataType) => {
     userInfo
   );
   localStorage.setItem("token", result.data.token);
+};
+
+export const createTodo = async (createInfo: CreateProps) => {
+  const result = await axios.post("http://localhost:8080/todos", createInfo, {
+    headers: {
+      // authorization: `Bearer ${token}`,
+      authorization: `eyJhbGciOiJIUzI1NiJ9.YWFhYUBnbWFpbC5jb20.w4b9tgnb8G7x7KCQqh231aI4dLLLmZHNTqGitkctl6I`,
+    },
+  });
+  console.log("createInfo:", createInfo);
+  console.log("result:", result);
 };

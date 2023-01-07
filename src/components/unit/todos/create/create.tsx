@@ -11,17 +11,31 @@ export default function CreateTodos() {
     content: "",
   });
 
-  const onChangeInputs = (
-    event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setInputs({
-      ...inputs,
-      [event.target.name]: event.target.value,
-    });
-  };
+  const onChangeInputs =
+    (name: string) =>
+    (
+      event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+    ) => {
+      setInputs({
+        ...inputs,
+        [name]: event.target.value,
+      });
+    };
 
   const onClickCreate = () => {
-    mutate({ ...inputs });
+    mutate(
+      { ...inputs },
+      {
+        onSuccess: () => {
+          alert("Successfully added");
+        },
+      }
+    );
+
+    setInputs({
+      title: "",
+      content: "",
+    });
   };
 
   return (
@@ -29,9 +43,12 @@ export default function CreateTodos() {
       <S.InfoWrapper>
         <h2>Add your to-do list </h2>
         <label>Title</label>
-        <S.TitleInput onChange={onChangeInputs} name="title" />
+        <S.TitleInput onChange={onChangeInputs("title")} value={inputs.title} />
         <label>Content</label>
-        <S.ContentText onChange={onChangeInputs} name="content" />
+        <S.ContentText
+          onChange={onChangeInputs("content")}
+          value={inputs.content}
+        />
         <S.CreateButton onClick={onClickCreate}>Create</S.CreateButton>
       </S.InfoWrapper>
     </S.Wrapper>

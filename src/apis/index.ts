@@ -42,3 +42,12 @@ export const getTodos = async () => {
   });
   return result.data?.data;
 };
+
+export const getTodoById = async (id: string | undefined) => {
+  const result = await axios.get(`http://localhost:8080/todos/${id}`, {
+    headers: {
+      authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.YWFhYUBnbWFpbC5jb20.w4b9tgnb8G7x7KCQqh231aI4dLLLmZHNTqGitkctl6I`,
+    },
+  });
+  return result.data?.data;
+};

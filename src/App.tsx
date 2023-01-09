@@ -5,6 +5,7 @@ import { NavigationUtil } from "./utils/navigation";
 import AuthPage from "./pages/auth";
 import SignUpPage from "./pages/signUp";
 import TodosPage from "./pages/todos";
+import DetailPage from "./pages/detail";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path={NavigationUtil.auth} element={<AuthPage />} />
             <Route path={NavigationUtil.register} element={<SignUpPage />} />
             <Route path={NavigationUtil.todos} element={<TodosPage />} />
+            <Route path={NavigationUtil.detail} element={<DetailPage />} />
           </Routes>
         </QueryClientProvider>
       </Layout>

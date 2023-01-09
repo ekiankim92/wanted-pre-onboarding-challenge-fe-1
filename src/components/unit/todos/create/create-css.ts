@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   width: 47.5%;
-  background: lightyellow;
+  height: 540px;
 `;
 
 export const InfoWrapper = styled.div`

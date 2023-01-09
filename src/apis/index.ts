@@ -29,8 +29,16 @@ export const handleSignUp = async (userInfo: DataType) => {
 export const createTodo = async (createInfo: CreateProps) => {
   await axios.post("http://localhost:8080/todos", createInfo, {
     headers: {
-      // authorization: `Bearer ${token}`,
-      authorization: `eyJhbGciOiJIUzI1NiJ9.YWFhYUBnbWFpbC5jb20.w4b9tgnb8G7x7KCQqh231aI4dLLLmZHNTqGitkctl6I`,
+      authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.YWFhYUBnbWFpbC5jb20.w4b9tgnb8G7x7KCQqh231aI4dLLLmZHNTqGitkctl6I`,
     },
   });
+};
+
+export const getTodos = async () => {
+  const result = await axios.get("http://localhost:8080/todos", {
+    headers: {
+      authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.YWFhYUBnbWFpbC5jb20.w4b9tgnb8G7x7KCQqh231aI4dLLLmZHNTqGitkctl6I`,
+    },
+  });
+  return result.data?.data;
 };

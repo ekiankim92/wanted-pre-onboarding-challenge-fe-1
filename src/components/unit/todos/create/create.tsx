@@ -23,6 +23,11 @@ export default function CreateTodos() {
     };
 
   const onClickCreate = () => {
+    const { title, content } = inputs;
+
+    if (!title || !content || title.length <= 2 || content.length <= 5)
+      return alert("Please enter the information correctly");
+
     mutate(
       { ...inputs },
       {

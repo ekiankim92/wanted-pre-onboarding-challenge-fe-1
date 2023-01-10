@@ -1,7 +1,7 @@
 import * as S from "./list-css";
-import { getTodos } from "../../../../apis";
-import { useQuery } from "react-query";
-import { faPenToSquare, faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
+import { getTodos, deleteTodo } from "../../../../apis";
+import { useQuery, useMutation, QueryClient } from "react-query";
+import { faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import { MouseEvent } from "react";
 
@@ -15,22 +15,42 @@ interface DataType {
 
 export default function TodosList() {
   const { data }: any = useQuery("todoList", getTodos);
+  const { mutate } = useMutation(deleteTodo);
+  const queryClient = new QueryClient();
+
   const navigate = useNavigate();
 
   const onClickMoveDetail = (event: MouseEvent<HTMLDivElement>) => {
-    navigate(`/todos/${event.currentTarget.id}`);
+    const target = event.target as Element;
+    navigate(`/todos/${target.id}`);
+  };
+
+  const onClickDelete = (id: string | undefined) => () => {
+    console.log("id:", id);
+    mutate(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("todoList");
+      },
+    });
   };
 
   return (
     <S.Wrapper>
-      {data?.map((el: DataType) => (
-        <S.TodoListWrapper key={el.id} onClick={onClickMoveDetail} id={el.id}>
-          <S.EditButton icon={faPenToSquare} />
-          <S.DeleteButton icon={faDeleteLeft} />
-          <S.TitleLabel>Title: {el.title}</S.TitleLabel>
-          <S.ContentLabel>Content: {el.content}</S.ContentLabel>
-        </S.TodoListWrapper>
-      ))}
+      {data
+        ?.map((el: DataType) => (
+          <S.TodoListWrapper key={el.id}>
+            <S.DeleteButton
+              icon={faDeleteLeft}
+              onClick={onClickDelete(el.id)}
+              id={el.id}
+            />
+            <S.TitleLabel>Title: {el.title}</S.TitleLabel>
+            <S.ContentLabel onClick={onClickMoveDetail} id={el.id}>
+              Content: {el.content}
+            </S.ContentLabel>
+          </S.TodoListWrapper>
+        ))
+        .reverse()}
     </S.Wrapper>
   );
 }

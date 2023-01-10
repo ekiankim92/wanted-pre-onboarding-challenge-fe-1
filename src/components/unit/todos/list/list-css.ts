@@ -5,18 +5,16 @@ export const Wrapper = styled.div`
   width: 47.5%;
   height: 540px;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
   overflow-y: scroll;
+  margin-top: 30px;
 `;
 
 export const TodoListWrapper = styled.div`
   border: 1px solid #000;
   width: 320px;
   margin: 10px;
-  :hover {
-    cursor: pointer;
-  }
 `;
 
 export const EditButton = styled(FontAwesomeIcon)`
@@ -41,4 +39,9 @@ export const TitleLabel = styled.div`
 
 export const ContentLabel = styled.div`
   font-size: 20px;
+  :hover {
+    font-weight: 700;
+    cursor: pointer;
+    opacity: 0.5;
+  }
 `;

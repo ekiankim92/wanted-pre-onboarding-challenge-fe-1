@@ -51,3 +51,44 @@ export const getTodoById = async (id: string | undefined) => {
   });
   return result.data?.data;
 };
+
+export const deleteTodo = async (id: string | undefined) => {
+  await axios.delete(`http://localhost:8080/todos/${id}`, {
+    headers: {
+      authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.YWFhYUBnbWFpbC5jb20.w4b9tgnb8G7x7KCQqh231aI4dLLLmZHNTqGitkctl6I`,
+    },
+  });
+};
+
+// export const updateTodo =
+//   async (id: string | undefined) => async (updateInfo: UpdateProps) => {
+//     const result = await axios.put(
+//       `http://localhost:8080/todos/${id}`,
+//       updateInfo,
+//       {
+//         headers: {
+//           authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.YWFhYUBnbWFpbC5jb20.w4b9tgnb8G7x7KCQqh231aI4dLLLmZHNTqGitkctl6I`,
+//         },
+//       }
+//     );
+//     console.log("result:", result);
+//     console.log("updateInfo:", updateInfo);
+//   };
+
+export const updateTodo =
+  async (id: any) => async (title: any, content: any) => {
+    const result = await axios.put(
+      `http://localhost:8080/todos/${id}`,
+      {
+        title,
+        content,
+      },
+      {
+        headers: {
+          authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.YWFhYUBnbWFpbC5jb20.w4b9tgnb8G7x7KCQqh231aI4dLLLmZHNTqGitkctl6I`,
+        },
+      }
+    );
+    console.log("result:", result);
+    console.log("updateInfo:", title, content);
+  };

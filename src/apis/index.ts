@@ -10,6 +10,12 @@ interface CreateProps {
   content: string;
 }
 
+interface UpdateProps {
+  id: string | undefined;
+  title: string | undefined;
+  content: string | undefined;
+}
+
 export const handleLogin = async (userInfo: DataType) => {
   const result = await axios.post(
     "http://localhost:8080/users/login",
@@ -60,35 +66,18 @@ export const deleteTodo = async (id: string | undefined) => {
   });
 };
 
-// export const updateTodo =
-//   async (id: string | undefined) => async (updateInfo: UpdateProps) => {
-//     const result = await axios.put(
-//       `http://localhost:8080/todos/${id}`,
-//       updateInfo,
-//       {
-//         headers: {
-//           authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.YWFhYUBnbWFpbC5jb20.w4b9tgnb8G7x7KCQqh231aI4dLLLmZHNTqGitkctl6I`,
-//         },
-//       }
-//     );
-//     console.log("result:", result);
-//     console.log("updateInfo:", updateInfo);
-//   };
-
-export const updateTodo =
-  async (id: any) => async (title: any, content: any) => {
-    const result = await axios.put(
-      `http://localhost:8080/todos/${id}`,
-      {
-        title,
-        content,
+export const updateTodo = async ({ id, title, content }: UpdateProps) => {
+  const result = await axios.put(
+    `http://localhost:8080/todos/${id}`,
+    {
+      title,
+      content,
+    },
+    {
+      headers: {
+        authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.YWFhYUBnbWFpbC5jb20.w4b9tgnb8G7x7KCQqh231aI4dLLLmZHNTqGitkctl6I`,
       },
-      {
-        headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.YWFhYUBnbWFpbC5jb20.w4b9tgnb8G7x7KCQqh231aI4dLLLmZHNTqGitkctl6I`,
-        },
-      }
-    );
-    console.log("result:", result);
-    console.log("updateInfo:", title, content);
-  };
+    }
+  );
+  return result.data?.data;
+};

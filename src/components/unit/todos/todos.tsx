@@ -3,7 +3,7 @@ import CreateTodos from "./create/create";
 import TodosList from "./list/list";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -28,9 +28,9 @@ const ArrowIcon = styled(FontAwesomeIcon)`
 export default function Todos() {
   const [isSwitch, setIsSwitch] = useState<boolean>(false);
 
-  const onClickArrow = () => {
+  const onClickArrow = useCallback(() => {
     setIsSwitch((prev) => !prev);
-  };
+  }, []);
 
   return (
     <Wrapper>

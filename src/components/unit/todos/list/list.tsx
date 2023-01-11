@@ -14,11 +14,10 @@ interface DataType {
 }
 
 export default function TodosList() {
-  const { data }: any = useQuery("todoList", getTodos);
-  const { mutate } = useMutation(deleteTodo);
   const queryClient = new QueryClient();
-
+  const { data } = useQuery(["todoList"], getTodos);
   const navigate = useNavigate();
+  const { mutate } = useMutation(deleteTodo);
 
   const onClickMoveDetail = (event: MouseEvent<HTMLDivElement>) => {
     const target = event.target as Element;
@@ -26,10 +25,9 @@ export default function TodosList() {
   };
 
   const onClickDelete = (id: string | undefined) => () => {
-    console.log("id:", id);
     mutate(id, {
       onSuccess: () => {
-        queryClient.invalidateQueries("todoList");
+        queryClient.invalidateQueries(["todoList"]);
       },
     });
   };

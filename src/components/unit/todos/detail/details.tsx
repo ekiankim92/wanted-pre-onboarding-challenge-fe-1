@@ -1,11 +1,11 @@
 import * as S from "./detail-css";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
-import { getTodoById } from "../../../../apis";
+import { useQuery, useMutation } from "react-query";
+import { getTodoById, updateTodo } from "../../../../apis";
 import { useNavigate } from "react-router";
 import { faLeftLong, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { ChangeEvent, useState } from "react";
-import axios from "axios";
+import { NavigationUtil } from "../../../../utils/navigation";
 
 interface IdProps {
   id?: string | undefined;
@@ -15,6 +15,7 @@ export default function TodoDetail() {
   const navigate = useNavigate();
   const { id }: IdProps = useParams();
   const { data }: any = useQuery(["todoDetail", id], () => getTodoById(id));
+  const { mutate } = useMutation(updateTodo);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [inputs, setInputs] = useState({
     title: "",
@@ -47,21 +48,15 @@ export default function TodoDetail() {
 
   const onClickEdit = (id: string | undefined) => async () => {
     const { title, content } = inputs;
-    const result = await axios.put(
-      `http://localhost:8080/todos/${id}`,
+    mutate(
+      { id, title, content },
       {
-        title,
-        content,
-      },
-      {
-        headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.YWFhYUBnbWFpbC5jb20.w4b9tgnb8G7x7KCQqh231aI4dLLLmZHNTqGitkctl6I`,
+        onSuccess: () => {
+          setIsModalOpen(false);
+          navigate(NavigationUtil.todos);
         },
       }
     );
-    setIsModalOpen(false);
-    console.log("result:", result);
-    return result.data?.data;
   };
 
   return (
@@ -94,12 +89,12 @@ export default function TodoDetail() {
         <S.InputsWrapper>
           <S.ModalTitleLabel>Title:</S.ModalTitleLabel>
           <S.TitleInput
-            defaultValue={data?.title || ""}
+            defaultValue={data?.title || inputs.title}
             onChange={onChangeInputs("title")}
           />
           <S.ModalTitleLabel>Content:</S.ModalTitleLabel>
           <S.ContentInput
-            defaultValue={data?.content || ""}
+            defaultValue={data?.content || inputs.content}
             onChange={onChangeInputs("content")}
           />
         </S.InputsWrapper>

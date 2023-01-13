@@ -49,7 +49,11 @@ export default function TodoDetail() {
   const onClickEdit = (id: string | undefined) => async () => {
     const { title, content } = inputs;
     mutate(
-      { id, title, content },
+      {
+        id,
+        title: title || data.title,
+        content: content || data.content,
+      },
       {
         onSuccess: () => {
           setIsModalOpen(false);
@@ -89,12 +93,12 @@ export default function TodoDetail() {
         <S.InputsWrapper>
           <S.ModalTitleLabel>Title:</S.ModalTitleLabel>
           <S.TitleInput
-            defaultValue={data?.title || inputs.title}
+            defaultValue={data?.title || ""}
             onChange={onChangeInputs("title")}
           />
           <S.ModalTitleLabel>Content:</S.ModalTitleLabel>
           <S.ContentInput
-            defaultValue={data?.content || inputs.content}
+            defaultValue={data?.content || ""}
             onChange={onChangeInputs("content")}
           />
         </S.InputsWrapper>

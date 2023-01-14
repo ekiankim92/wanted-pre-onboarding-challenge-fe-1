@@ -5,7 +5,7 @@ import { faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import { MouseEvent } from "react";
 
-interface DataType {
+interface Todo {
   title: string;
   content: string;
   id: string;
@@ -15,7 +15,7 @@ interface DataType {
 
 export default function TodosList() {
   const queryClient = new QueryClient();
-  const { data } = useQuery(["todoList"], getTodos);
+  const { data: todos } = useQuery(["todoList"], getTodos);
   const navigate = useNavigate();
   const { mutate } = useMutation(deleteTodo);
 
@@ -34,21 +34,19 @@ export default function TodosList() {
 
   return (
     <S.Wrapper>
-      {data
-        ?.map((el: DataType) => (
-          <S.TodoListWrapper key={el.id}>
-            <S.DeleteButton
-              icon={faDeleteLeft}
-              onClick={onClickDelete(el.id)}
-              id={el.id}
-            />
-            <S.TitleLabel>Title: {el.title}</S.TitleLabel>
-            <S.ContentLabel onClick={onClickMoveDetail} id={el.id}>
-              Content: {el.content}
-            </S.ContentLabel>
-          </S.TodoListWrapper>
-        ))
-        .reverse()}
+      {todos?.reverse().map((todo: Todo) => (
+        <S.TodoListWrapper key={todo.id}>
+          <S.DeleteButton
+            icon={faDeleteLeft}
+            onClick={onClickDelete(todo.id)}
+            id={todo.id}
+          />
+          <S.TitleLabel>Title: {todo.title}</S.TitleLabel>
+          <S.ContentLabel onClick={onClickMoveDetail} id={todo.id}>
+            Content: {todo.content}
+          </S.ContentLabel>
+        </S.TodoListWrapper>
+      ))}
     </S.Wrapper>
   );
 }

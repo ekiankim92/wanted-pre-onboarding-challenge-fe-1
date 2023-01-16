@@ -34,19 +34,21 @@ export default function TodosList() {
 
   return (
     <S.Wrapper>
-      {todos?.reverse().map((todo: Todo) => (
-        <S.TodoListWrapper key={todo.id}>
-          <S.DeleteButton
-            icon={faDeleteLeft}
-            onClick={onClickDelete(todo.id)}
-            id={todo.id}
-          />
-          <S.TitleLabel>Title: {todo.title}</S.TitleLabel>
-          <S.ContentLabel onClick={onClickMoveDetail} id={todo.id}>
-            Content: {todo.content}
-          </S.ContentLabel>
-        </S.TodoListWrapper>
-      ))}
+      {todos
+        ?.map((todo: Todo) => (
+          <S.TodoListWrapper key={todo.id}>
+            <S.DeleteButton
+              icon={faDeleteLeft}
+              onClick={onClickDelete(todo.id)}
+              id={todo.id}
+            />
+            <S.TitleLabel>Title: {todo.title}</S.TitleLabel>
+            <S.ContentLabel onClick={onClickMoveDetail} id={todo.id}>
+              Content: {todo.content}
+            </S.ContentLabel>
+          </S.TodoListWrapper>
+        ))
+        .reverse()}
     </S.Wrapper>
   );
 }

@@ -20,11 +20,9 @@ const instance = axios.create({
   baseURL: "http://localhost:8080",
   headers: {
     "Content-Type": "application/json",
+    authorization: `Bearer ${localStorage.getItem("token")}`,
   },
 });
-
-const token =
-  "eyJhbGciOiJIUzI1NiJ9.YWFhYUBnbWFpbC5jb20.w4b9tgnb8G7x7KCQqh231aI4dLLLmZHNTqGitkctl6I";
 
 export const handleLogin = async (userInfo: DataType) => {
   const result = await instance.post("/users/login", userInfo);
@@ -37,51 +35,27 @@ export const handleSignUp = async (userInfo: DataType) => {
 };
 
 export const createTodo = async (createInfo: CreateProps) => {
-  await instance.post("/todos", createInfo, {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
+  await instance.post("/todos", createInfo);
 };
 
 export const getTodos = async () => {
-  const result = await instance.get("/todos", {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
+  const result = await instance.get("/todos");
   return result.data?.data;
 };
 
 export const getTodoById = async (id: string | undefined) => {
-  const result = await instance.get(`/todos/${id}`, {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
+  const result = await instance.get(`/todos/${id}`);
   return result.data?.data;
 };
 
 export const deleteTodo = async (id: string | undefined) => {
-  await instance.delete(`/todos/${id}`, {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
+  await instance.delete(`/todos/${id}`);
 };
 
 export const updateTodo = async ({ id, title, content }: UpdateProps) => {
-  const result = await instance.put(
-    `/todos/${id}`,
-    {
-      title,
-      content,
-    },
-    {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const result = await instance.put(`/todos/${id}`, {
+    title,
+    content,
+  });
   return result.data?.data;
 };

@@ -15,7 +15,10 @@ interface Todo {
 
 export default function TodosList() {
   const queryClient = new QueryClient();
-  const { data: todos } = useQuery(["todoList"], getTodos);
+  const { data: todos } = useQuery({
+    queryKey: ["todoList"],
+    queryFn: getTodos,
+  });
   const navigate = useNavigate();
   const { mutate } = useMutation(deleteTodo);
 
